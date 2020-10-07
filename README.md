@@ -1,5 +1,1 @@
-# chakrabarti
-# chakrabarti
-# chakrabarti_exam
-# chakrabarti_exam
-# chakrabarti_exam
+# Chakrabarti College Result Management System
