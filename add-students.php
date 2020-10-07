@@ -10,21 +10,48 @@ if(strlen($_SESSION['alogin'])=="")
 if(isset($_POST['submit']))
 {
 $studentname=$_POST['fullanme'];
-$roolid=$_POST['rollid']; 
+$rollid=$_POST['rollid']; 
 $studentemail=$_POST['emailid']; 
 $gender=$_POST['gender']; 
+$examid=$_POST['examid']; 
+$phone=$_POST['phone']; 
+
 $classid=$_POST['class']; 
-$dob=$_POST['dob']; 
-$status=1;
-$sql="INSERT INTO  tblstudents(StudentName,RollId,StudentEmail,Gender,ClassId,DOB,Status) VALUES(:studentname,:roolid,:studentemail,:gender,:classid,:dob,:status)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
-$query->bindParam(':roolid',$roolid,PDO::PARAM_STR);
+$batch=$_POST['batch']; 
+
+
+
+if($classid == 'BA.LL.B FIRST'){
+    $sql="INSERT INTO  FIRSTYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'BA.LL.B SECOND'){
+    $sql="INSERT INTO  SECONDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'BA.LL.B THIRD'){
+    $sql="INSERT INTO  THIRDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'BA.LL.B FOURTH'){
+    $sql="INSERT INTO  FOURTHYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'BA.LL.B FIFTH'){
+    $sql="INSERT INTO  FIFTHYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'LL.M FIRST'){
+    $sql="INSERT INTO  MASTER_FIRSTYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+else if($classid == 'LL.M SECOND'){
+    $sql="INSERT INTO  MASTER_SECONDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
+}
+    $query = $dbh->prepare($sql);
+
+    $query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
+$query->bindParam(':rollid',$rollid,PDO::PARAM_STR);
 $query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
 $query->bindParam(':gender',$gender,PDO::PARAM_STR);
-$query->bindParam(':classid',$classid,PDO::PARAM_STR);
-$query->bindParam(':dob',$dob,PDO::PARAM_STR);
-$query->bindParam(':status',$status,PDO::PARAM_STR);
+$query->bindParam(':examid',$examid,PDO::PARAM_STR);
+$query->bindParam(':phone',$phone,PDO::PARAM_STR);
+$query->bindParam(':batch',$batch,PDO::PARAM_STR);
+
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
@@ -121,20 +148,39 @@ else if($error){?>
 </div>
 
 <div class="form-group">
-<label for="default" class="col-sm-2 control-label">Rool Id</label>
+<label for="default" class="col-sm-2 control-label">Exam Id</label>
 <div class="col-sm-10">
-<input type="text" name="rollid" class="form-control" id="rollid" maxlength="5" required="required" autocomplete="off">
+<input type="text" name="examid" class="form-control" id="examid" required="required" autocomplete="off">
 </div>
 </div>
 
 <div class="form-group">
-<label for="default" class="col-sm-2 control-label">Email id)</label>
+<label for="default" class="col-sm-2 control-label">Roll No.</label>
+<div class="col-sm-10">
+<input type="text" name="rollid" class="form-control" id="rollid" required="required" autocomplete="off">
+</div>
+</div>
+
+<div class="form-group">
+<label for="default" class="col-sm-2 control-label">Email</label>
 <div class="col-sm-10">
 <input type="email" name="emailid" class="form-control" id="email" required="required" autocomplete="off">
 </div>
 </div>
 
+<div class="form-group">
+<label for="default" class="col-sm-2 control-label">Phone No.</label>
+<div class="col-sm-10">
+<input type="number" name="phone" class="form-control" id="phone" required="required" autocomplete="off">
+</div>
+</div>
 
+<div class="form-group">
+<label for="default" class="col-sm-2 control-label">Batch</label>
+<div class="col-sm-10">
+<input type="number" name="batch" class="form-control" id="batch" required="required" autocomplete="off">
+</div>
+</div>
 
 <div class="form-group">
 <label for="default" class="col-sm-2 control-label">Gender</label>
@@ -143,37 +189,19 @@ else if($error){?>
 </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Class</label>
-                                                        <div class="col-sm-10">
- <select name="class" class="form-control" id="default" required="required">
-<option value="">Select Class</option>
-<?php $sql = "SELECT * from tblclasses";
-$query = $dbh->prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{   ?>
-<option value="<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->ClassName); ?>&nbsp; Section-<?php echo htmlentities($result->Section); ?></option>
-<?php }} ?>
- </select>
-                                                        </div>
-                                                    </div>
 <div class="form-group">
-                                                        <label for="date" class="col-sm-2 control-label">DOB</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="date"  name="dob" class="form-control" id="date">
+<label for="default" class="col-sm-2 control-label">Class</label>
+<div class="col-sm-10">
+ <select name="class" class="form-control" id="default" required="required">
+<option value="">- Select Class -</option>
+    <option value="BA.LL.B FIRST">BA.LL.B FIRST YEAR</option>
+    <option value="BA.LL.B SECOND">BA.LL.B SECOND YEAR</option>
+    <option value="BA.LL.B THIRD">BA.LL.B THIRD YEAR</option>
+    <option value="BA.LL.B FOURTH">BA.LL.B FOURTH YEAR</option>
+    <option value="BA.LL.B FIFTH">BA.LL.B FIFTH YEAR</option>
+    <option value="LL.M FIRST">LL.M FIRST YEAR</option>
+    <option value="LL.M SECOND">LL.M SECOND YEAR</option>
+ </select>
                                                         </div>
                                                     </div>
                                                     
