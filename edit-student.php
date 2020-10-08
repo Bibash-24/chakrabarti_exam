@@ -12,21 +12,23 @@ $stid=intval($_GET['stid']);
 
 if(isset($_POST['submit']))
 {
-$studentname=$_POST['fullanme'];
-$roolid=$_POST['rollid']; 
-$studentemail=$_POST['emailid']; 
-$gender=$_POST['gender']; 
-$classid=$_POST['class']; 
-$dob=$_POST['dob']; 
-$status=$_POST['status'];
-$sql="update tblstudents set StudentName=:studentname,RollId=:roolid,StudentEmail=:studentemail,Gender=:gender,DOB=:dob,Status=:status where StudentId=:stid ";
+    $studentname=$_POST['fullanme'];
+    $rollid=$_POST['rollid']; 
+    $studentemail=$_POST['emailid']; 
+    $gender=$_POST['gender']; 
+    $examid=$_POST['examid']; 
+    $phone=$_POST['phone']; 
+    $classid=$_POST['class']; 
+    $batch=$_POST['batch']; 
+$sql="update FIRSTYEAR_STUDENT set NAME=:studentname,ROLL_NO=:rollid,EMAIL=:studentemail,BATCH=:batch,PHONE_NO=:phone,GENDER=:gender where StudentId=:stid ";
 $query = $dbh->prepare($sql);
 $query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
-$query->bindParam(':roolid',$roolid,PDO::PARAM_STR);
+$query->bindParam(':rollid',$rollid,PDO::PARAM_STR);
 $query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
 $query->bindParam(':gender',$gender,PDO::PARAM_STR);
-$query->bindParam(':dob',$dob,PDO::PARAM_STR);
-$query->bindParam(':status',$status,PDO::PARAM_STR);
+$query->bindParam(':examid',$examid,PDO::PARAM_STR);
+$query->bindParam(':phone',$phone,PDO::PARAM_STR);
+// $query->bindParam(':batch',$batch,PDO::PARAM_STR);
 $query->bindParam(':stid',$stid,PDO::PARAM_STR);
 $query->execute();
 
@@ -111,7 +113,7 @@ else if($error){?>
                                                 <form class="form-horizontal" method="post">
 <?php 
 
-$sql = "SELECT tblstudents.StudentName,tblstudents.RollId,tblstudents.RegDate,tblstudents.StudentId,tblstudents.Status,tblstudents.StudentEmail,tblstudents.Gender,tblstudents.DOB,tblclasses.ClassName,tblclasses.Section from tblstudents join tblclasses on tblclasses.id=tblstudents.ClassId where tblstudents.StudentId=:stid";
+$sql = "SELECT NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER from FIRSTYEAR_STUDENT where STUDENTID=:stid";
 $query = $dbh->prepare($sql);
 $query->bindParam(':stid',$stid,PDO::PARAM_STR);
 $query->execute();
@@ -126,89 +128,61 @@ foreach($results as $result)
 <div class="form-group">
 <label for="default" class="col-sm-2 control-label">Full Name</label>
 <div class="col-sm-10">
-<input type="text" name="fullanme" class="form-control" id="fullanme" value="<?php echo htmlentities($result->StudentName)?>" required="required" autocomplete="off">
+<input type="text" name="fullanme" class="form-control" id="fullanme" value="<?php echo htmlentities($result->NAME)?>" required="required" autocomplete="off">
 </div>
 </div>
 
 <div class="form-group">
 <label for="default" class="col-sm-2 control-label">Rool Id</label>
 <div class="col-sm-10">
-<input type="text" name="rollid" class="form-control" id="rollid" value="<?php echo htmlentities($result->RollId)?>" maxlength="5" required="required" autocomplete="off">
+<input type="text" name="rollid" class="form-control" id="rollid" value="<?php echo htmlentities($result->ROLL_NO)?>" required="required" autocomplete="off">
 </div>
 </div>
 
 <div class="form-group">
-<label for="default" class="col-sm-2 control-label">Email id)</label>
+<label for="default" class="col-sm-2 control-label">Exam Id</label>
 <div class="col-sm-10">
-<input type="email" name="emailid" class="form-control" id="email" value="<?php echo htmlentities($result->StudentEmail)?>" required="required" autocomplete="off">
+<input type="text" name="examid" class="form-control" id="examid" value="<?php echo htmlentities($result->EXAM_NO)?>" required="required" autocomplete="off">
 </div>
 </div>
 
+<div class="form-group">
+<label for="default" class="col-sm-2 control-label">Email</label>
+<div class="col-sm-10">
+<input type="email" name="emailid" class="form-control" id="email" value="<?php echo htmlentities($result->EMAIL)?>" required="required" autocomplete="off">
+</div>
+</div>
 
+<div class="form-group">
+<label for="default" class="col-sm-2 control-label">Phone</label>
+<div class="col-sm-10">
+<input type="number" name="phone" class="form-control" id="phone" value="<?php echo htmlentities($result->PHONE_NO)?>" required="required" autocomplete="off">
+</div>
+</div>
 
 <div class="form-group">
 <label for="default" class="col-sm-2 control-label">Gender</label>
 <div class="col-sm-10">
-<?php  $gndr=$result->Gender;
-if($gndr=="Male")
+<?php  $gndr=$result->GENDER;
+if($gndr=="M")
 {
 ?>
-<input type="radio" name="gender" value="Male" required="required" checked>Male <input type="radio" name="gender" value="Female" required="required">Female <input type="radio" name="gender" value="Other" required="required">Other
+<input type="radio" name="gender" value="M" required="required" checked>Male <input type="radio" name="gender" value="F" required="required">Female <input type="radio" name="gender" value="O" required="required">Other
 <?php }?>
 <?php  
-if($gndr=="Female")
+if($gndr=="F")
 {
 ?>
-<input type="radio" name="gender" value="Male" required="required" >Male <input type="radio" name="gender" value="Female" required="required" checked>Female <input type="radio" name="gender" value="Other" required="required">Other
+<input type="radio" name="gender" value="M" required="required" >Male <input type="radio" name="gender" value="F" required="required" checked>Female <input type="radio" name="gender" value="O" required="required">Other
 <?php }?>
 <?php  
-if($gndr=="Other")
+if($gndr=="O")
 {
 ?>
-<input type="radio" name="gender" value="Male" required="required" >Male <input type="radio" name="gender" value="Female" required="required">Female <input type="radio" name="gender" value="Other" required="required" checked>Other
+<input type="radio" name="gender" value="M" required="required" >Male <input type="radio" name="gender" value="F" required="required">Female <input type="radio" name="gender" value="O" required="required" checked>Other
 <?php }?>
-
-
 </div>
 </div>
-
-
-
-                                                    <div class="form-group">
-                                                        <label for="default" class="col-sm-2 control-label">Class</label>
-                                                        <div class="col-sm-10">
-<input type="text" name="classname" class="form-control" id="classname" value="<?php echo htmlentities($result->ClassName)?>(<?php echo htmlentities($result->Section)?>)" readonly>
-                                                        </div>
-                                                    </div>
-<div class="form-group">
-                                                        <label for="date" class="col-sm-2 control-label">DOB</label>
-                                                        <div class="col-sm-10">
-                <input type="date"  name="dob" class="form-control" value="<?php echo htmlentities($result->DOB)?>" id="date">
-                                                        </div>
-                                                    </div>
-<div class="form-group">
-<label for="default" class="col-sm-2 control-label">Reg Date: </label>
-<div class="col-sm-10">
-<?php echo htmlentities($result->RegDate)?>
-</div>
-</div>
-
-<div class="form-group">
-<label for="default" class="col-sm-2 control-label">Status</label>
-<div class="col-sm-10">
-<?php  $stats=$result->Status;
-if($stats=="1")
-{
-?>
-<input type="radio" name="status" value="1" required="required" checked>Active <input type="radio" name="status" value="0" required="required">Block 
-<?php }?>
-<?php  
-if($stats=="0")
-{
-?>
-<input type="radio" name="status" value="1" required="required" >Active <input type="radio" name="status" value="0" required="required" checked>Block 
-<?php }?>
-
 
 
 </div>

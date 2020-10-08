@@ -109,10 +109,11 @@ else if($error){?>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Student Name</th>
-                                                            <th>Roll Id</th>
-                                                            <th>Class</th>
-                                                            <th>Reg Date</th>
-                                                            <th>Status</th>
+                                                            <th>Roll No</th>
+                                                            <th>Exam Id</th>
+                                                            <th>Email</th>
+                                                            <th>Phone</th>
+                                                            <th>Gender</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -120,15 +121,16 @@ else if($error){?>
                                                         <tr>
                                                           <th>#</th>
                                                             <th>Student Name</th>
-                                                            <th>Roll Id</th>
-                                                            <th>Class</th>
-                                                            <th>Reg Date</th>
-                                                            <th>Status</th>
+                                                            <th>Roll No</th>
+                                                            <th>Exam Id</th>
+                                                            <th>Email</th>
+                                                            <th>Phone</th>
+                                                            <th>Gender</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </tfoot>
                                                     <tbody>
-<?php $sql = "SELECT tblstudents.StudentName,tblstudents.RollId,tblstudents.RegDate,tblstudents.StudentId,tblstudents.Status,tblclasses.ClassName,tblclasses.Section from tblstudents join tblclasses on tblclasses.id=tblstudents.ClassId";
+<?php $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER from FIRSTYEAR_STUDENT";
 $query = $dbh->prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -139,19 +141,15 @@ foreach($results as $result)
 {   ?>
 <tr>
  <td><?php echo htmlentities($cnt);?></td>
-                                                            <td><?php echo htmlentities($result->StudentName);?></td>
-                                                            <td><?php echo htmlentities($result->RollId);?></td>
-                                                            <td><?php echo htmlentities($result->ClassName);?>(<?php echo htmlentities($result->Section);?>)</td>
-                                                            <td><?php echo htmlentities($result->RegDate);?></td>
-                                                             <td><?php if($result->Status==1){
-echo htmlentities('Active');
-}
-else{
-   echo htmlentities('Blocked'); 
-}
-                                                                ?></td>
+                                                            <td><?php echo htmlentities($result->NAME);?></td>
+                                                            <td><?php echo htmlentities($result->ROLL_NO);?></td>
+                                                            <td><?php echo htmlentities($result->EXAM_NO);?></td>
+                                                            <td><?php echo htmlentities($result->EMAIL);?></td>
+                                                            <td><?php echo htmlentities($result->PHONE_NO);?></td>
+                                                            <td><?php echo htmlentities($result->GENDER);?></td>
+                                                             </td>
 <td>
-<a href="edit-student.php?stid=<?php echo htmlentities($result->StudentId);?>"><i class="fa fa-edit" title="Edit Record"></i> </a> 
+<a href="edit-student.php?stid=<?php echo htmlentities($result->STUDENTID);?>"><i class="fa fa-edit" title="Edit Record"></i> </a> 
 
 </td>
 </tr>
