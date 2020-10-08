@@ -14,25 +14,25 @@ if(isset($_POST['submit']))
 {
     $studentname=$_POST['fullanme'];
     $rollid=$_POST['rollid']; 
-    $studentemail=$_POST['emailid']; 
+    $studentemail=$_POST['emailid'];  
     $gender=$_POST['gender']; 
     $examid=$_POST['examid']; 
     $phone=$_POST['phone']; 
-    $classid=$_POST['class']; 
-    $batch=$_POST['batch']; 
-$sql="update FIRSTYEAR_STUDENT set NAME=:studentname,ROLL_NO=:rollid,EMAIL=:studentemail,BATCH=:batch,PHONE_NO=:phone,GENDER=:gender where StudentId=:stid ";
-$query = $dbh->prepare($sql);
-$query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
-$query->bindParam(':rollid',$rollid,PDO::PARAM_STR);
-$query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
-$query->bindParam(':gender',$gender,PDO::PARAM_STR);
-$query->bindParam(':examid',$examid,PDO::PARAM_STR);
-$query->bindParam(':phone',$phone,PDO::PARAM_STR);
-// $query->bindParam(':batch',$batch,PDO::PARAM_STR);
-$query->bindParam(':stid',$stid,PDO::PARAM_STR);
-$query->execute();
+    // $classid=$_POST['class']; 
+    // $batch=$_POST['batch']; 
+    $sql="UPDATE FIRSTYEAR_STUDENT set NAME=:studentname,ROLL_NO=:rollid,EMAIL=:studentemail,PHONE_NO=:phone,EXAM_NO=:examid,GENDER=:gender where STUDENTID=:stid";
+    $query = $dbh->prepare($sql);
+    $query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
+    $query->bindParam(':rollid',$rollid,PDO::PARAM_INT); 
+    $query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
+    $query->bindParam(':gender',$gender,PDO::PARAM_STR);
+    $query->bindParam(':examid',$examid,PDO::PARAM_STR);
+    $query->bindParam(':phone',$phone,PDO::PARAM_STR);
+    // $query->bindParam(':batch',$batch,PDO::PARAM_STR);
+    $query->bindParam(':stid',$stid,PDO::PARAM_STR);
+    $query->execute();
 
-$msg="Student info updated successfully";
+    $msg="Student info updated successfully";
 }
 
 

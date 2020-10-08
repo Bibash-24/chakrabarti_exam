@@ -14,8 +14,8 @@ if(!empty($_POST["classid"]))
  while($row=$stmt->fetch(PDO::FETCH_ASSOC))
  {
   ?>
-  <option value="<?php echo htmlentities($row['StudentId']); ?>"><?php echo htmlentities($row['StudentName']); ?></option>
-  <?php
+<option value="<?php echo htmlentities($row['StudentId']); ?>"><?php echo htmlentities($row['StudentName']); ?></option>
+<?php
  }
 }
 
@@ -35,8 +35,9 @@ if(!empty($_POST["classid1"]))
  
  while($row=$stmt->fetch(PDO::FETCH_ASSOC))
  {?>
-  <p> <?php echo htmlentities($row['SubjectName']); ?><input type="text"  name="marks[]" value="" class="form-control" required="" placeholder="Enter marks out of 100" autocomplete="off"></p>
-  
+<p> <?php echo htmlentities($row['SubjectName']); ?><input type="text" name="marks[]" value="" class="form-control"
+        required="" placeholder="Enter marks out of 100" autocomplete="off"></p>
+
 <?php  }
 }
 }
@@ -62,7 +63,7 @@ $cnt=1;
 if($query -> rowCount() > 0)
 { ?>
 <p>
-<?php
+    <?php
 echo "<span style='color:red'> Result Already Declare .</span>";
  echo "<script>$('#submit').prop('disabled',true);</script>";
  ?></p>
@@ -70,5 +71,3 @@ echo "<span style='color:red'> Result Already Declare .</span>";
 
 
   }?>
-
-
