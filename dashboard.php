@@ -25,6 +25,7 @@ if(strlen($_SESSION['alogin'])=="")
         <link rel="stylesheet" href="css/icheck/skins/line/red.css" >
         <link rel="stylesheet" href="css/icheck/skins/line/green.css" >
         <link rel="stylesheet" href="css/main.css" media="screen" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
         <script src="js/modernizr/modernizr.min.js"></script>
     </head>
     <body class="top-navbar-fixed">
@@ -124,6 +125,9 @@ $totalresults=$query3->rowCount();
 
                                 </div>
                                 <!-- /.row -->
+                                <div style="width: 500px; height: 500px;">
+                                    <canvas id="myChart" width="400" height="400"></canvas>
+                                </div>
                             </div>
                             <!-- /.container-fluid -->
                         </section>
@@ -166,7 +170,10 @@ $totalresults=$query3->rowCount();
         <script src="js/production-chart.js"></script>
         <script src="js/traffic-chart.js"></script>
         <script src="js/task-list.js"></script>
-        <script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha512-QEiC894KVkN9Tsoi6+mKf8HaCLJvyA6QIRzY5KrfINXYuP9NxdIkRQhGq3BZi0J4I7V5SidGM3XUQ5wFiMDuWg==" crossorigin="anonymous"></script>
+        
+        <script src="js/bar-chart-dashboard.js"></script><script>
             $(function(){
 
                 // Counter for dashboard stats
