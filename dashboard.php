@@ -125,7 +125,7 @@ $totalresults=$query3->rowCount();
 
                                 </div>
                                 <!-- /.row -->
-                                <div style="width: 500px; height: 500px;">
+                                <div style="width: 600px; height: 600px;">
                                     <canvas id="myChart" width="400" height="400"></canvas>
                                 </div>
                             </div>
