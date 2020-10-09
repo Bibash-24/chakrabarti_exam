@@ -1,23 +1,49 @@
 <?php
 include('includes/config.php');
-if(!empty($_POST["classid"])) 
+if(!empty($_POST["programmeid"])) 
 {
- $cid=intval($_POST['classid']);
+ $cid=intval($_POST['programmeid']);
  if(!is_numeric($cid)){
- 
- 	echo htmlentities("invalid Class");exit;
+   echo htmlentities("Invalid Programme");
+   exit;
  }
  else{
- $stmt = $dbh->prepare("SELECT StudentName,StudentId FROM tblstudents WHERE ClassId= :id order by StudentName");
- $stmt->execute(array(':id' => $cid));
- ?><option value="">Select Category </option><?php
- while($row=$stmt->fetch(PDO::FETCH_ASSOC))
- {
-  ?>
-<option value="<?php echo htmlentities($row['StudentId']); ?>"><?php echo htmlentities($row['StudentName']); ?></option>
+  if($cid == 1 || $cid == 2 || $cid == 3){
+      $stmt = $dbh->prepare("SELECT SID,SNAME FROM LLBSTUDENT WHERE PRGID = :id ORDER BY SNAME ");
+      $stmt->execute(array(':id' => $cid));
+     ?><option value="">Select Student </option><?php
+     while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+     {
+      ?>
+<option value="<?php echo htmlentities($row['SID']); ?>"><?php echo htmlentities($row['SNAME']); ?></option>
 <?php
- }
 }
+     } 
+else if($cid == 4 || $cid == 5){
+$stmt = $dbh->prepare("SELECT GRPID,GRPNAME FROM LLBGROUP");
+$stmt->execute();
+?><option value="">Select BA LL.B Academic Group </option><?php
+      while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+      {
+      ?>
+<option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
+<?php
+      }
+    }
+    else if ($cid == 6 || $cid == 7){
+      $stmt = $dbh->prepare("SELECT GRPID,GRPNAME FROM LLMGROUP");
+      $stmt->execute();
+      ?><option value="">Select LL.M Academic Group </option><?php
+      while($row=$stmt->fetch(PDO::FETCH_ASSOC))
+      {
+      ?>
+<option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
+<?php
+      }
+    }
+    
+   }
+ 
 
 }
 // Code for Subjects

@@ -78,22 +78,19 @@ $error="Something went wrong. Please try again";
             <script src="js/modernizr/modernizr.min.js"></script>
 
             <script>
-                function getGroup() {
+            function getGroup() {
 
-                    var selectBox = document.getElementById('programmeid');
-                    var userInput = selectBox.options[selectBox.selectedIndex].value;
-                    if (userInput == 4 || userInput == 5) {
-                        document.getElementById('groupid').style.visibility = 'visible';
-                    }
-                    else if (userInput == 6 || userInput == 7) {
-                        document.getElementById('mgroupid').style.visibility = 'visible';
-                    }
-                    else{
-                        document.getElementById('groupid').style.visibility = 'hidden';
-                    }
-                    return false;
+                var selectBox = document.getElementById('programmeid');
+                var userInput = selectBox.options[selectBox.selectedIndex].value;
+                if (userInput == 4 || userInput == 5) {
+                    document.getElementById('groupid').style.visibility = 'visible';
+                } else if (userInput == 6 || userInput == 7) {
+                    document.getElementById('mgroupid').style.visibility = 'visible';
+                } else {
+                    document.getElementById('groupid').style.visibility = 'hidden';
                 }
-
+                return false;
+            }
             </script>
 
 </head>
@@ -218,10 +215,10 @@ else if($error){?>
                                             <div class="form-group">
                                                 <label for="default" class="col-sm-2 control-label">Class</label>
                                                 <div class="col-sm-10">
-                                                        <select name="programme" class="form-control"
-                                                            id="programmeid" onChange="getGroup();" required="required">
-                                                            <option value="">Select Year</option>
-                                                            <?php $sql = "SELECT * from PROGRAMME";
+                                                    <select name="programme" class="form-control" id="programmeid"
+                                                        onChange="getGroup();" required="required">
+                                                        <option value="">Select Year</option>
+                                                        <?php $sql = "SELECT * from PROGRAMME";
                                                             $query = $dbh->prepare($sql);
                                                             $query->execute();
                                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -229,21 +226,20 @@ else if($error){?>
                                                             {
                                                             foreach($results as $result)
                                                             {   ?>
-                                                            <option
-                                                                value="<?php echo htmlentities($result->PRGID); ?>">
-                                                                <?php echo htmlentities($result->PRGNAME); ?>
-                                                            </option>
-                                                            <?php }} ?>
-                                                        </select>
+                                                        <option value="<?php echo htmlentities($result->PRGID); ?>">
+                                                            <?php echo htmlentities($result->PRGNAME); ?>
+                                                        </option>
+                                                        <?php }} ?>
+                                                    </select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group" style="visibility: hidden;">
-                                                        <label for="default" class="col-sm-2 control-label">Group</label>
-                                                        <div class="col-sm-10">
-                                                            <select name="group" class="form-control" id="groupid">
-                                                            <option value="">Select Class</option>
-                                                            <?php $sql = "SELECT * from LLBGROUP";
+                                                <label for="default" class="col-sm-2 control-label">Group</label>
+                                                <div class="col-sm-10">
+                                                    <select name="group" class="form-control" id="groupid">
+                                                        <option value="">Select Class</option>
+                                                        <?php $sql = "SELECT * from LLBGROUP";
                                                             $query = $dbh->prepare($sql);
                                                             $query->execute();
                                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -251,21 +247,20 @@ else if($error){?>
                                                             {
                                                             foreach($results as $result)
                                                             {   ?>
-                                                            <option
-                                                                value="<?php echo htmlentities($result->GRPID); ?>">
-                                                                <?php echo htmlentities($result->GRPNAME); ?>
-                                                            </option>
-                                                            <?php }} ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                        <option value="<?php echo htmlentities($result->GRPID); ?>">
+                                                            <?php echo htmlentities($result->GRPNAME); ?>
+                                                        </option>
+                                                        <?php }} ?>
+                                                    </select>
+                                                </div>
+                                            </div>
 
-                                                    <div class="form-group" style="visibility: hidden;">
-                                                        <label for="default" class="col-sm-2 control-label">Group</label>
-                                                        <div class="col-sm-10">
-                                                            <select name="mgroup" class="form-control" id="mgroupid">
-                                                            <option value="">Select Class</option>
-                                                            <?php $sql = "SELECT * from LLMGROUP";
+                                            <div class="form-group" style="visibility: hidden;">
+                                                <label for="default" class="col-sm-2 control-label">Group</label>
+                                                <div class="col-sm-10">
+                                                    <select name="mgroup" class="form-control" id="mgroupid">
+                                                        <option value="">Select Class</option>
+                                                        <?php $sql = "SELECT * from LLMGROUP";
                                                             $query = $dbh->prepare($sql);
                                                             $query->execute();
                                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -273,14 +268,13 @@ else if($error){?>
                                                             {
                                                             foreach($results as $result)
                                                             {   ?>
-                                                            <option
-                                                                value="<?php echo htmlentities($result->GRPID); ?>">
-                                                                <?php echo htmlentities($result->GRPNAME); ?>
-                                                            </option>
-                                                            <?php }} ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                        <option value="<?php echo htmlentities($result->GRPID); ?>">
+                                                            <?php echo htmlentities($result->GRPNAME); ?>
+                                                        </option>
+                                                        <?php }} ?>
+                                                    </select>
+                                                </div>
+                                            </div>
 
 
                                             <div class="form-group">
@@ -323,7 +317,7 @@ else if($error){?>
         });
         </script>
 
-        
+
 </body>
 
 </html>

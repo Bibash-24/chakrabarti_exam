@@ -4,30 +4,30 @@ if(!empty($_POST["programmeid"]))
 {
  $cid=intval($_POST['programmeid']);
  if(!is_numeric($cid)){
-   echo htmlentities("invalid Programme");
+   echo htmlentities("Invalid Programme");
    exit;
  }
  else{
    if($cid == 4 || $cid == 5){
       $stmt = $dbh->prepare("SELECT GRPID,GRPNAME FROM LLBGROUP");
       $stmt->execute();
-      ?><option value="">Select GROUP </option><?php
+      ?><option value="">Select BA LL.B Academic Group </option><?php
       while($row=$stmt->fetch(PDO::FETCH_ASSOC))
       {
       ?>
-    <option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
-    <?php
+<option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
+<?php
       }
     }
     else if ($cid == 6 || $cid == 7){
       $stmt = $dbh->prepare("SELECT GRPID,GRPNAME FROM LLMGROUP");
       $stmt->execute();
-      ?><option value="">Select Group </option><?php
+      ?><option value="">Select LL.M Academic Group </option><?php
       while($row=$stmt->fetch(PDO::FETCH_ASSOC))
       {
       ?>
-    <option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
-    <?php
+<option value="<?php echo htmlentities($row['GRPID']); ?>"><?php echo htmlentities($row['GRPNAME']); ?></option>
+<?php
       }
     }
     

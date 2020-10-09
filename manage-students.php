@@ -48,32 +48,32 @@ if(strlen($_SESSION['alogin'])=="")
 
 <script>
 // var selectBox = document.getElementById('programme');
-    // var userInput = selectBox.options[selectBox.selectedIndex].value;
-    // if (userInput == 4 || userInput == 5) {
-    //     document.getElementById('group').style.visibility = 'visible';
-    // } else {
-    //     document.getElementById('group').style.visibility = 'hidden';
-    // }
-    // return false;
+// var userInput = selectBox.options[selectBox.selectedIndex].value;
+// if (userInput == 4 || userInput == 5) {
+//     document.getElementById('group').style.visibility = 'visible';
+// } else {
+//     document.getElementById('group').style.visibility = 'hidden';
+// }
+// return false;
 function getStudent() {
     $.ajax({
-    type: "POST",
-    url: "show-student.php",
-    data:'programmeid='+val,
-    success: function(data){
-        $("#groupid").html(data);
-    }
+        type: "POST",
+        url: "show-student.php",
+        data: 'programmeid=' + val,
+        success: function(data) {
+            $("#groupid").html(data);
+        }
     });
 }
 
-function getGroup(val) { 
+function getGroup(val) {
     $.ajax({
-    type: "POST",
-    url: "show-student.php",
-    data:'programmeid='+val,
-    success: function(data){
-        $("#groupid").html(data);
-    }
+        type: "POST",
+        url: "show-student.php",
+        data: 'programmeid=' + val,
+        success: function(data) {
+            $("#groupid").html(data);
+        }
     });
 }
 </script>
@@ -127,12 +127,13 @@ function getGroup(val) {
                                                 <span>View Students Info</span>
                                                 <span class="text-align:center">
                                                     <div class="form-group">
-                                                    <label for="default" class="col-sm-2 control-label">Year</label>
-                                                    <div class="col-sm-10">
-                                                        <select name="programme" class="form-control clid"
-                                                            id="programmeid" onChange="getGroup(this.value);" required="required">
-                                                            <option value="">Select Class</option>
-                                                            <?php $sql = "SELECT * from PROGRAMME";
+                                                        <label for="default" class="col-sm-2 control-label">Year</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="programme" class="form-control clid"
+                                                                id="programmeid" onChange="getGroup(this.value);"
+                                                                required="required">
+                                                                <option value="">Select Class</option>
+                                                                <?php $sql = "SELECT * from PROGRAMME";
                                                             $query = $dbh->prepare($sql);
                                                             $query->execute();
                                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -140,22 +141,22 @@ function getGroup(val) {
                                                             {
                                                             foreach($results as $result)
                                                             {   ?>
-                                                            <option
-                                                                value="<?php echo htmlentities($result->PRGID); ?>">
-                                                                <?php echo htmlentities($result->PRGNAME); ?>
-                                                            </option>
-                                                            <?php }} ?>
-                                                        </select>
+                                                                <option
+                                                                    value="<?php echo htmlentities($result->PRGID); ?>">
+                                                                    <?php echo htmlentities($result->PRGNAME); ?>
+                                                                </option>
+                                                                <?php }} ?>
+                                                            </select>
                                                         </div>
                                                 </span>
                                                 <span>
-                                                <div class="form-group">
+                                                    <div class="form-group">
                                                         <label for="date" class="col-sm-2 control-label">Group</label>
                                                         <div class="col-sm-10">
-                                                    <select name="group" class="form-control" id="groupid">
-                                                    </select>
+                                                            <select name="group" class="form-control" id="groupid">
+                                                            </select>
                                                         </div>
-                                                    </div<>
+                                                    </div>
                                                 </span>
                                             </div>
                                         </div>
