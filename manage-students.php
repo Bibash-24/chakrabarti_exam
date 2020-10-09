@@ -51,13 +51,24 @@ function getGroup() {
 
     var selectBox = document.getElementById('programme');
     var userInput = selectBox.options[selectBox.selectedIndex].value;
-
     if (userInput == 1) {
         document.getElementById('group').style.visibility = 'visible';
     } else {
         document.getElementById('group').style.visibility = 'hidden';
     }
     return false;
+}
+
+function getStudent(val) {
+    $.ajax({
+    type: "POST",
+    url: "show-student.php",
+    data:'programmeid='+val,
+    success: function(data){
+        $("#studentid").html(data);
+        
+    }
+    });
 }
 </script>
 
@@ -139,8 +150,7 @@ function getGroup() {
                                                                 <option value="criminal">Criminal Law</option>
                                                                 <option value="business">Business Law </option>
                                                                 <option value="constitution">Constitutional Law</option>
-                                                                <option value="environment">Environment And Development
-                                                                    Law</option>
+                                                                <option value="environment">Environment And Development Law</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -186,13 +196,15 @@ else if($error){?>
                                                 </tfoot>
                                                 <tbody>
                                                     <?php 
-$classid=$_POST['programme'];
-echo $classid;
-if($classid == 'BA LL.B First Year'){
+                                                    
+// $classid=$_POST['programme'];
+// echo $classid;
+// if($classid == 1){
+
     $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM FIRSTYEAR_STUDENT";
-}else {
-    $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM SECONDYEAR_STUDENT";
-}
+// }else {
+//     $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM SECONDYEAR_STUDENT";
+// }
 
 $query = $dbh->prepare($sql);
 $query->execute();

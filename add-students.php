@@ -9,52 +9,48 @@ if(strlen($_SESSION['alogin'])=="")
     else{
 if(isset($_POST['submit']))
 {
-$studentname=$_POST['fullanme'];
-$rollid=$_POST['rollid']; 
-$studentemail=$_POST['emailid']; 
-$gender=$_POST['gender']; 
-$examid=$_POST['examid']; 
-$phone=$_POST['phone']; 
-$classid=$_POST['class']; 
-$batch=$_POST['batch']; 
+    $studentname=$_POST['fullanme'];
+    $rollid=$_POST['rollid']; 
+    $studentemail=$_POST['emailid']; 
+    $gender=$_POST['gender']; 
+    $examid=$_POST['examid']; 
+    $phone=$_POST['phone']; 
+    $program=$_POST['programme']; 
+    $batch=$_POST['batch'];
+    
 
-
-
-if($classid == 'BA.LL.B FIRST'){
-    $sql="INSERT INTO  FIRSTYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'BA.LL.B SECOND'){
-    $sql="INSERT INTO  SECONDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'BA.LL.B THIRD'){
-    $sql="INSERT INTO  THIRDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'BA.LL.B FOURTH'){
-    $sql="INSERT INTO  FOURTHYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'BA.LL.B FIFTH'){
-    $sql="INSERT INTO  FIFTHYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'LL.M FIRST'){
-    $sql="INSERT INTO  MASTER_FIRSTYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-else if($classid == 'LL.M SECOND'){
-    $sql="INSERT INTO  MASTER_SECONDYEAR_STUDENT(NAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch)";
-}
-    $query = $dbh->prepare($sql);
+    if($program == 1 || $program == 2 || $program == 3){
+        $sql="INSERT INTO  LLBSTUDENT(SNAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH,PRGID) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch,:program)";
+        $query = $dbh->prepare($sql);
+    }
+    else if($program == 4 || $program == 5){
+        $group=$_POST['group'];
+        $sql="INSERT INTO  LLBSTUDENT(SNAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH,PRGID,GRPID) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch,:program,:group)";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':group',$group,PDO::PARAM_STR);
+    }
+    else if($program == 6 || $program == 7){
+        $group=$_POST['group'];
+        $sql="INSERT INTO  LLMSTUDENT(SNAME,EXAM_NO,ROLL_NO,EMAIL,PHONE_NO,GENDER,BATCH,PRGID,GRPID) VALUES(:studentname,:examid,:rollid,:studentemail,:phone,:gender,:batch,:program,:group)";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':group',$group,PDO::PARAM_STR);
+    }
+    
 
     $query->bindParam(':studentname',$studentname,PDO::PARAM_STR);
-$query->bindParam(':rollid',$rollid,PDO::PARAM_STR);
-$query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
-$query->bindParam(':gender',$gender,PDO::PARAM_STR);
-$query->bindParam(':examid',$examid,PDO::PARAM_STR);
-$query->bindParam(':phone',$phone,PDO::PARAM_STR);
-$query->bindParam(':batch',$batch,PDO::PARAM_STR);
+    $query->bindParam(':rollid',$rollid,PDO::PARAM_STR);
+    $query->bindParam(':studentemail',$studentemail,PDO::PARAM_STR);
+    $query->bindParam(':gender',$gender,PDO::PARAM_STR);
+    $query->bindParam(':examid',$examid,PDO::PARAM_STR);
+    $query->bindParam(':phone',$phone,PDO::PARAM_STR);
+    $query->bindParam(':batch',$batch,PDO::PARAM_STR);
+    $query->bindParam(':program',$program,PDO::PARAM_STR);
+    
 
 $query->execute();
 $lastInsertId = $dbh->lastInsertId();
 if($lastInsertId)
-{
+{ 
 $msg="Student info added successfully";
 }
 else 
@@ -80,6 +76,26 @@ $error="Something went wrong. Please try again";
             <link rel="stylesheet" href="css/select2/select2.min.css">
             <link rel="stylesheet" href="css/main.css" media="screen">
             <script src="js/modernizr/modernizr.min.js"></script>
+
+            <script>
+                function getGroup() {
+
+                    var selectBox = document.getElementById('programmeid');
+                    var userInput = selectBox.options[selectBox.selectedIndex].value;
+                    if (userInput == 4 || userInput == 5) {
+                        document.getElementById('groupid').style.visibility = 'visible';
+                    }
+                    else if (userInput == 6 || userInput == 7) {
+                        document.getElementById('mgroupid').style.visibility = 'visible';
+                    }
+                    else{
+                        document.getElementById('groupid').style.visibility = 'hidden';
+                    }
+                    return false;
+                }
+
+            </script>
+
 </head>
 
 <body class="top-navbar-fixed">
@@ -202,20 +218,69 @@ else if($error){?>
                                             <div class="form-group">
                                                 <label for="default" class="col-sm-2 control-label">Class</label>
                                                 <div class="col-sm-10">
-                                                    <select name="class" class="form-control" id="default"
-                                                        required="required">
-                                                        <option value="">- Select Class -</option>
-                                                        <option value="BA.LL.B FIRST">BA.LL.B FIRST YEAR</option>
-                                                        <option value="BA.LL.B SECOND">BA.LL.B SECOND YEAR</option>
-                                                        <option value="BA.LL.B THIRD">BA.LL.B THIRD YEAR</option>
-                                                        <option value="BA.LL.B FOURTH">BA.LL.B FOURTH YEAR</option>
-                                                        <option value="BA.LL.B FIFTH">BA.LL.B FIFTH YEAR</option>
-                                                        <option value="LL.M FIRST">LL.M FIRST YEAR</option>
-                                                        <option value="LL.M SECOND">LL.M SECOND YEAR</option>
-                                                    </select>
+                                                        <select name="programme" class="form-control"
+                                                            id="programmeid" onChange="getGroup();" required="required">
+                                                            <option value="">Select Year</option>
+                                                            <?php $sql = "SELECT * from PROGRAMME";
+                                                            $query = $dbh->prepare($sql);
+                                                            $query->execute();
+                                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                            if($query->rowCount() > 0)
+                                                            {
+                                                            foreach($results as $result)
+                                                            {   ?>
+                                                            <option
+                                                                value="<?php echo htmlentities($result->PRGID); ?>">
+                                                                <?php echo htmlentities($result->PRGNAME); ?>
+                                                            </option>
+                                                            <?php }} ?>
+                                                        </select>
                                                 </div>
                                             </div>
 
+                                            <div class="form-group" style="visibility: hidden;">
+                                                        <label for="default" class="col-sm-2 control-label">Group</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="group" class="form-control" id="groupid">
+                                                            <option value="">Select Class</option>
+                                                            <?php $sql = "SELECT * from LLBGROUP";
+                                                            $query = $dbh->prepare($sql);
+                                                            $query->execute();
+                                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                            if($query->rowCount() > 0)
+                                                            {
+                                                            foreach($results as $result)
+                                                            {   ?>
+                                                            <option
+                                                                value="<?php echo htmlentities($result->GRPID); ?>">
+                                                                <?php echo htmlentities($result->GRPNAME); ?>
+                                                            </option>
+                                                            <?php }} ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group" style="visibility: hidden;">
+                                                        <label for="default" class="col-sm-2 control-label">Group</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="mgroup" class="form-control" id="mgroupid">
+                                                            <option value="">Select Class</option>
+                                                            <?php $sql = "SELECT * from LLMGROUP";
+                                                            $query = $dbh->prepare($sql);
+                                                            $query->execute();
+                                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                            if($query->rowCount() > 0)
+                                                            {
+                                                            foreach($results as $result)
+                                                            {   ?>
+                                                            <option
+                                                                value="<?php echo htmlentities($result->GRPID); ?>">
+                                                                <?php echo htmlentities($result->GRPNAME); ?>
+                                                            </option>
+                                                            <?php }} ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
 
                                             <div class="form-group">
@@ -257,6 +322,8 @@ else if($error){?>
             });
         });
         </script>
+
+        
 </body>
 
 </html>
