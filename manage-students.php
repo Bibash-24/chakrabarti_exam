@@ -47,26 +47,32 @@ if(strlen($_SESSION['alogin'])=="")
 </head>
 
 <script>
-function getGroup() {
-
-    var selectBox = document.getElementById('programme');
-    var userInput = selectBox.options[selectBox.selectedIndex].value;
-    if (userInput == 1) {
-        document.getElementById('group').style.visibility = 'visible';
-    } else {
-        document.getElementById('group').style.visibility = 'hidden';
-    }
-    return false;
-}
-
-function getStudent(val) {
+// var selectBox = document.getElementById('programme');
+    // var userInput = selectBox.options[selectBox.selectedIndex].value;
+    // if (userInput == 4 || userInput == 5) {
+    //     document.getElementById('group').style.visibility = 'visible';
+    // } else {
+    //     document.getElementById('group').style.visibility = 'hidden';
+    // }
+    // return false;
+function getStudent() {
     $.ajax({
     type: "POST",
     url: "show-student.php",
     data:'programmeid='+val,
     success: function(data){
-        $("#studentid").html(data);
-        
+        $("#groupid").html(data);
+    }
+    });
+}
+
+function getGroup(val) { 
+    $.ajax({
+    type: "POST",
+    url: "show-student.php",
+    data:'programmeid='+val,
+    success: function(data){
+        $("#groupid").html(data);
     }
     });
 }
@@ -121,8 +127,10 @@ function getStudent(val) {
                                                 <span>View Students Info</span>
                                                 <span class="text-align:center">
                                                     <div class="form-group">
+                                                    <label for="default" class="col-sm-2 control-label">Year</label>
+                                                    <div class="col-sm-10">
                                                         <select name="programme" class="form-control clid"
-                                                            id="programme" onChange="getGroup();" required="required">
+                                                            id="programmeid" onChange="getGroup(this.value);" required="required">
                                                             <option value="">Select Class</option>
                                                             <?php $sql = "SELECT * from PROGRAMME";
                                                             $query = $dbh->prepare($sql);
@@ -133,27 +141,21 @@ function getStudent(val) {
                                                             foreach($results as $result)
                                                             {   ?>
                                                             <option
-                                                                value="<?php echo htmlentities($result->PROGRAMMEID); ?>">
-                                                                <?php echo htmlentities($result->PROGRAMMENAME); ?>
+                                                                value="<?php echo htmlentities($result->PRGID); ?>">
+                                                                <?php echo htmlentities($result->PRGNAME); ?>
                                                             </option>
                                                             <?php }} ?>
                                                         </select>
+                                                        </div>
                                                 </span>
                                                 <span>
-                                                    <div class="form-group" style="visibility: hidden;">
-                                                        <label for="default"
-                                                            class="col-sm-2 control-label">Group</label>
+                                                <div class="form-group">
+                                                        <label for="date" class="col-sm-2 control-label">Group</label>
                                                         <div class="col-sm-10">
-                                                            <select name="group" class="form-control" id="group"
-                                                                required="required">
-                                                                <option value="">- Select Group -</option>
-                                                                <option value="criminal">Criminal Law</option>
-                                                                <option value="business">Business Law </option>
-                                                                <option value="constitution">Constitutional Law</option>
-                                                                <option value="environment">Environment And Development Law</option>
-                                                            </select>
+                                                    <select name="group" class="form-control" id="groupid">
+                                                    </select>
                                                         </div>
-                                                    </div>
+                                                    </div<>
                                                 </span>
                                             </div>
                                         </div>
@@ -161,7 +163,7 @@ function getStudent(val) {
                                         <div class="alert alert-success left-icon-alert" role="alert">
                                             <strong>Well done!</strong><?php echo htmlentities($msg); ?>
                                         </div><?php } 
-else if($error){?>
+                                        else if($error){?>
                                         <div class="alert alert-danger left-icon-alert" role="alert">
                                             <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
                                         </div>
@@ -197,14 +199,7 @@ else if($error){?>
                                                 <tbody>
                                                     <?php 
                                                     
-// $classid=$_POST['programme'];
-// echo $classid;
-// if($classid == 1){
-
-    $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM FIRSTYEAR_STUDENT";
-// }else {
-//     $sql = "SELECT STUDENTID,NAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM SECONDYEAR_STUDENT";
-// }
+    $sql = "SELECT SID,SNAME,ROLL_NO,EXAM_NO,EMAIL,PHONE_NO,GENDER FROM LLBSTUDENT";
 
 $query = $dbh->prepare($sql);
 $query->execute();
